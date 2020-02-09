@@ -1,32 +1,17 @@
 version: 2.1
 jobs:
   build:
+    docker:
+      - image: circleci/golang:1.9.7
     steps:
       - checkout
       - setup_remote_docker
-      - run: |
-         echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
-         make build-images
       - run:
-          name: Save Docker image layer cache
+          name: build and push images
           command: |
-            make persist-images
-      - save_cache:
-          key: v1-{{ .Branch }}-{{ epoch }}
-          paths:
-          - /caches
-  push_images:
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-{{ .Branch }}-{{ epoch }}
-          paths:
-            - /caches
-      - run: |
-          echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
-          make load-cached-images
-          make push-images
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            make build-images
+            make push-images
 
 workflows:
   version: 2
@@ -36,9 +21,4 @@ workflows:
           filters:
             branches:
               only: master
-      - push_images:
-          require:
-            - build
-          branches:
-            only: master
       

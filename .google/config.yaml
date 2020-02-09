@@ -1,0 +1,14 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/result', './result' ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/vote', './vote' ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/worker', './worker' ]
+images:
+- 'gcr.io/$PROJECT_ID/result'
+- 'gcr.io/$PROJECT_ID/vote'
+- 'gcr.io/$PROJECT_ID/worker'
+
+
+
