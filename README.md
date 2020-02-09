@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/medmouine/example-voting-app/tree/master.svg?style=svg)](https://circleci.com/gh/medmouine/example-voting-app/tree/master)
+
 Example Voting App
 =========
 
